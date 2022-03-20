@@ -39,8 +39,8 @@ public class App
             System.exit(-1);
         }
 
-        int bretries = 10;
-        for (int i = 0; i < bretries; ++i)
+        int retries = 10;
+        for (int i = 0; i < retries; ++i)
         {
             System.out.println("Type 1:Connecting to database...");
             try
@@ -48,38 +48,34 @@ public class App
                 // Wait a bit for db to start
                 Thread.sleep(30000);
                 // Connect to database
-                con = DriverManager.getConnection("jdbc:mysql://db:3306/employees", "root", "example");
-                System.out.println("Successfully connected");
-                break;
-            }
-            catch (SQLException sqle)
-            {
-                System.out.println("Failed to connect to database attempt " + i);
-                System.out.println(sqle.getMessage());
-            }
-            catch (InterruptedException ie)
-            {
-                System.out.println("Thread interrupted? Should not happen.");
-            }
-        }
-
-        int retries = 10;
-        for (int i = 0; i < retries; ++i)
-        {
-            System.out.println("Type 2:Connecting to database...");
-            try
-            {
-                // Wait a bit for db to start
-                Thread.sleep(30000);
-                // Connect to database
                 con = DriverManager.getConnection("jdbc:mysql://localhost:33060/employees", "root", "example");
-                System.out.println("Successfully connected");
+                System.out.println("Type 1:Successfully connected");
                 break;
             }
             catch (SQLException sqle)
             {
                 System.out.println("Failed to connect to database attempt " + i);
                 System.out.println(sqle.getMessage());
+
+                System.out.println("Type 2:Connecting to database...");
+                try
+                {
+                    // Wait a bit for db to start
+                    Thread.sleep(30000);
+                    // Connect to database
+                    con = DriverManager.getConnection("jdbc:mysql://db:3306/employees", "root", "example");
+                    System.out.println("Type 2:Successfully connected");
+                    break;
+                }
+                catch (SQLException sqles)
+                {
+                    System.out.println("Failed to connect to database attempt " + i);
+                    System.out.println(sqles.getMessage());
+                }
+                catch (InterruptedException ie)
+                {
+                    System.out.println("Thread interrupted? Should not happen.");
+                }
             }
             catch (InterruptedException ie)
             {
